@@ -17,12 +17,15 @@ body {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
+.pokemon-card:hover {
+    cursor: pointer;
+}
+
 .pokemon-card__background {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #6abd5a;
     border-radius: 10px 10px 0 0;
 }
 .pokemon-card__image {
