@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "bootstrap": "^5.2.0"
+  },
+  "name": "neo-pokedex",
+  "description": "Pokedex made for the 12th class of r/ArgentinaPrograma",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "cypress-open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrancoGomez/neo-pokedex.git"
+  },
+  "author": "Franco Gomez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FrancoGomez/neo-pokedex/issues"
+  },
+  "homepage": "https://github.com/FrancoGomez/neo-pokedex#readme"
+}
