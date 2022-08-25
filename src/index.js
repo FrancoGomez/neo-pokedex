@@ -12,6 +12,9 @@ const getPokemonInfo = async (pokemonId) => {
 const createPokemonCards = async (amount) => {
     for (let i = 1; i <= amount; i++) {
         const { name, id, types } = await getPokemonInfo(i);
+        const { type } = types[0];
+        const { backgroundColor: typeColor } =
+            typePokemonColors[`${type.name}`];
 
         const $pokemonCardContainer = document.createElement("div");
 
@@ -20,6 +23,7 @@ const createPokemonCards = async (amount) => {
 
         const $pokemonBackground = document.createElement("div");
         $pokemonBackground.className = "pokemon-card__background";
+        $pokemonBackground.style.backgroundColor = typeColor;
         $pokemonBackground.appendChild(createPokemonImage(id));
 
         const $pokemonCardBody = document.createElement("div");
@@ -67,9 +71,12 @@ const createPokemonTypes = (types) => {
 
     types.forEach((typeInfo) => {
         const { type } = typeInfo;
+        const { backgroundColor: typeColor } =
+            typePokemonColors[`${type.name}`];
+
         const $pokemonType = document.createElement("p");
-        $pokemonType.className = `card-text pokemon-card__types__${type.name}`;
         $pokemonType.textContent = type.name;
+        $pokemonType.style.color = typeColor;
 
         $typesContainer.appendChild($pokemonType);
     });
@@ -77,4 +84,4 @@ const createPokemonTypes = (types) => {
     return $typesContainer;
 };
 
-createPokemonCards(4);
+createPokemonCards(898);
