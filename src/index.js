@@ -21,13 +21,19 @@ const createPokemonCards = async (amount) => {
         const $pokemonCard = document.createElement("div");
         $pokemonCard.className = "card pokemon-card";
 
+        const $imageContainer = document.createElement("div");
+        $imageContainer.className = "pokemon-card__image-container";
+        $imageContainer.appendChild(createBackgroundCircle());
+        $imageContainer.appendChild(createPokemonImage(id));
+
         const $pokemonBackground = document.createElement("div");
         $pokemonBackground.className = "pokemon-card__background";
         $pokemonBackground.style.backgroundColor = typeColor;
-        $pokemonBackground.appendChild(createPokemonImage(id));
+        $pokemonBackground.appendChild(createJapanesePokemonName(id));
+        $pokemonBackground.appendChild($imageContainer);
 
         const $pokemonCardBody = document.createElement("div");
-        $pokemonCardBody.className = "card-body";
+        $pokemonCardBody.className = "card-body pokemon-card__body pt-4";
         $pokemonCardBody.appendChild(createPokemonName(name));
         $pokemonCardBody.appendChild(createPokemonId(id));
         $pokemonCardBody.appendChild(createPokemonTypes(types));
@@ -39,6 +45,21 @@ const createPokemonCards = async (amount) => {
 
         $pokemonCardsContainer.appendChild($pokemonCardContainer);
     }
+};
+
+const createJapanesePokemonName = (id) => {
+    const $japanesePokemonName = document.createElement("p");
+    $japanesePokemonName.className = "pokemon-card__japanese-name";
+    $japanesePokemonName.textContent = japanesePokemonNames[id - 1];
+
+    return $japanesePokemonName;
+};
+
+const createBackgroundCircle = () => {
+    const $backgroundCircle = document.createElement("div");
+    $backgroundCircle.className = "pokemon-card__background-circle";
+
+    return $backgroundCircle;
 };
 
 const createPokemonImage = (id) => {
@@ -84,4 +105,4 @@ const createPokemonTypes = (types) => {
     return $typesContainer;
 };
 
-createPokemonCards(898);
+createPokemonCards(japanesePokemonNames.length);
