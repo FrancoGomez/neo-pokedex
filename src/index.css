@@ -44,6 +44,18 @@ body {
     color: #000;
 }
 
+.dropdown-options {
+    max-height: 400px;
+}
+
+.dropdown-options__item {
+    text-transform: capitalize;
+}
+
+.dropdown-options__item:hover {
+    cursor: pointer;
+}
+
 .nav-bar__search-form input {
     border: none;
     border-radius: 0;
