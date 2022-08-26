@@ -15,14 +15,14 @@
             crossorigin="anonymous"
         />
         <link rel="stylesheet" href="src/index.css" />
-        <title>Pokedex R-AR</title>
+        <title>Pokedex</title>
     </head>
     <body>
         <nav class="navbar navbar-expand-lg fixed-top nav-bar">
             <div class="container-fluid pt-4 pb-4">
                 <div class="nav-bar___title-container">
                     <div class="nav-bar__icon"></div>
-                    <a class="navbar-brand" href="#">Pokedex R-AR</a>
+                    <a class="navbar-brand" href="#">Pokedex</a>
                 </div>
                 <button
                     class="navbar-toggler"
@@ -40,7 +40,7 @@
                     id="navbarSupportedContent"
                 >
                     <ul
-                        class="navbar-nav ms-auto mb-2 mb-lg-0 me-auto nav-bar___dropdown"
+                        class="navbar-nav ms-auto mb-2 mb-lg-0 me-3 nav-bar___dropdown"
                     >
                         <li class="nav-item dropdown">
                             <a
@@ -151,7 +151,7 @@
                             </ul>
                         </li>
                     </ul>
-                    <form class="d-flex" role="search">
+                    <form class="d-flex nav-bar__search-form" role="search">
                         <input
                             class="form-control me-2"
                             type="search"
@@ -167,8 +167,10 @@
             </div>
         </nav>
 
-        <div class="pokemon-cards-container">
-            <!-- Pokemon Cards -->
+        <div class="pokemon-cards-container-container">
+            <div class="pokemon-cards-container">
+                <!-- Pokemon Cards -->
+            </div>
         </div>
 
         <script
