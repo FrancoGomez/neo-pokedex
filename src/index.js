@@ -11,18 +11,17 @@ const getPokemonInfo = async (pokemonId) => {
 
 const createPokemonCards = (amount) => {
     for (let i = 1; i <= amount; i++) {
-        createPokemonCard(i)
+        createPokemonCard(i);
     }
 };
 
 const createPokemonCard = async (id) => {
     const { name, types } = await getPokemonInfo(id);
     const { type } = types[0];
-    const { backgroundColor: typeColor } =
-        typePokemonColors[`${type.name}`];
+    const { backgroundColor: typeColor } = typePokemonColors[`${type.name}`];
 
     const $pokemonCardContainer = document.createElement("div");
-    $pokemonCardContainer.className = "pokemon-card__container"
+    $pokemonCardContainer.className = "pokemon-card__container";
 
     const $pokemonCard = document.createElement("div");
     $pokemonCard.className = "card pokemon-card";
@@ -50,7 +49,7 @@ const createPokemonCard = async (id) => {
     $pokemonCardContainer.appendChild($pokemonCard);
 
     $pokemonCardsContainer.appendChild($pokemonCardContainer);
-}
+};
 
 const createJapanesePokemonName = (id) => {
     const $japanesePokemonName = document.createElement("p");
