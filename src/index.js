@@ -1,6 +1,19 @@
+const $pokemonTypeDropdown = document.querySelector("#pokemon-type-dropdown");
+const $pokemonAbilityDropdown = document.querySelector(
+    "#pokemon-ability-dropdown"
+);
+const $pokemonGenerationDropdown = document.querySelector(
+    "#pokemon-generation-dropdown"
+);
+
 const $pokemonCardsContainer = document.querySelector(
     ".pokemon-cards-container"
 );
+
+const init = () => {
+    createPokemonCards(12);
+    createDropdownOptions();
+};
 
 const getPokemonInfo = async (pokemonId) => {
     const pokemonInfo = await fetch(
@@ -9,10 +22,61 @@ const getPokemonInfo = async (pokemonId) => {
     return pokemonInfo.json();
 };
 
+const getAllPokemonTypes = async () => {
+    const allPokemonTypes = await fetch("https://pokeapi.co/api/v2/type");
+
+    return allPokemonTypes.json();
+};
+
+const getAllPokemonAbilities = async () => {
+    const allPokemonAbilities = await fetch(
+        "https://pokeapi.co/api/v2/ability?offset=0&limit=327"
+    );
+
+    return allPokemonAbilities.json();
+};
+
 const createPokemonCards = (amount) => {
     for (let i = 1; i <= amount; i++) {
         createPokemonCard(i);
     }
+};
+
+const createDropdownOptions = async () => {
+    const { results: resultsTypes } = await getAllPokemonTypes();
+    const { results: resultsAbilities } = await getAllPokemonAbilities();
+
+    const sortedTypes = sortArray(resultsTypes);
+    const sortedAbilities = sortArray(resultsAbilities);
+
+    createDropdownOptionsList(sortedTypes, $pokemonTypeDropdown);
+    createDropdownOptionsList(sortedAbilities, $pokemonAbilityDropdown);
+    createDropdownOptionsList(pokemonGenerations, $pokemonGenerationDropdown);
+};
+
+const sortArray = (array) => {
+    const newArray = [];
+
+    array.forEach(({ name }) => {
+        newArray.push(name);
+    });
+
+    return newArray.sort();
+};
+
+const createDropdownOptionsList = (array, $element) => {
+    const $dropdownList = document.createElement("ul");
+    $dropdownList.className = "dropdown-menu overflow-auto dropdown-options";
+
+    array.forEach((elemet) => {
+        const $dropdownItem = document.createElement("li");
+        $dropdownItem.className = "dropdown-item dropdown-options__item";
+        $dropdownItem.textContent = elemet.replaceAll("-", " ");
+
+        $dropdownList.appendChild($dropdownItem);
+    });
+
+    $element.appendChild($dropdownList);
 };
 
 const createPokemonCard = async (id) => {
@@ -109,4 +173,4 @@ const createPokemonTypes = (types) => {
     return $typesContainer;
 };
 
-createPokemonCards(japanesePokemonNames.length);
+init();
