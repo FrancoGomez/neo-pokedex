@@ -1,14 +1,46 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap");
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: "Montserrat", sans-serif;
+    background-image: url("https://assets.pokemon.com/static2/_ui/img/chrome/container_bg.png");
+    background-repeat: repeat;
+}
+
+.nav-bar {
+    max-width: 1400px;
+    margin: auto;
+    background-color: #fff;
+}
+
+.nav-bar___title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-bar___title-container div {
+    width: 32px;
+    height: 32px;
+    background-image: url("https://assets.pokemon.com/static2/_ui/img/favicon.ico");
+    background-size: cover;
+    margin-right: 0.5rem;
+}
+
+.nav-bar___title-container a {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #000;
 }
 
 .pokemon-cards-container {
     display: grid;
     gap: 1.5rem;
     grid-template-columns: repeat(3, 1fr);
-    margin: 0 auto;
+    margin: calc(62px + 1.5rem) auto;
     max-width: 1072px;
     padding: 0 0.5rem;
 }
