@@ -9,43 +9,48 @@ const getPokemonInfo = async (pokemonId) => {
     return pokemonInfo.json();
 };
 
-const createPokemonCards = async (amount) => {
+const createPokemonCards = (amount) => {
     for (let i = 1; i <= amount; i++) {
-        const { name, id, types } = await getPokemonInfo(i);
-        const { type } = types[0];
-        const { backgroundColor: typeColor } =
-            typePokemonColors[`${type.name}`];
-
-        const $pokemonCardContainer = document.createElement("div");
-
-        const $pokemonCard = document.createElement("div");
-        $pokemonCard.className = "card pokemon-card";
-
-        const $imageContainer = document.createElement("div");
-        $imageContainer.className = "pokemon-card__image-container";
-        $imageContainer.appendChild(createBackgroundCircle());
-        $imageContainer.appendChild(createPokemonImage(id));
-
-        const $pokemonBackground = document.createElement("div");
-        $pokemonBackground.className = "pokemon-card__background";
-        $pokemonBackground.style.backgroundColor = typeColor;
-        $pokemonBackground.appendChild(createJapanesePokemonName(id));
-        $pokemonBackground.appendChild($imageContainer);
-
-        const $pokemonCardBody = document.createElement("div");
-        $pokemonCardBody.className = "card-body pokemon-card__body pt-4";
-        $pokemonCardBody.appendChild(createPokemonName(name));
-        $pokemonCardBody.appendChild(createPokemonId(id));
-        $pokemonCardBody.appendChild(createPokemonTypes(types));
-
-        $pokemonCard.appendChild($pokemonBackground);
-        $pokemonCard.appendChild($pokemonCardBody);
-
-        $pokemonCardContainer.appendChild($pokemonCard);
-
-        $pokemonCardsContainer.appendChild($pokemonCardContainer);
+        createPokemonCard(i)
     }
 };
+
+const createPokemonCard = async (id) => {
+    const { name, types } = await getPokemonInfo(id);
+    const { type } = types[0];
+    const { backgroundColor: typeColor } =
+        typePokemonColors[`${type.name}`];
+
+    const $pokemonCardContainer = document.createElement("div");
+    $pokemonCardContainer.className = "pokemon-card__container"
+
+    const $pokemonCard = document.createElement("div");
+    $pokemonCard.className = "card pokemon-card";
+
+    const $imageContainer = document.createElement("div");
+    $imageContainer.className = "pokemon-card__image-container";
+    $imageContainer.appendChild(createBackgroundCircle());
+    $imageContainer.appendChild(createPokemonImage(id));
+
+    const $pokemonBackground = document.createElement("div");
+    $pokemonBackground.className = "pokemon-card__background";
+    $pokemonBackground.style.backgroundColor = typeColor;
+    $pokemonBackground.appendChild(createJapanesePokemonName(id));
+    $pokemonBackground.appendChild($imageContainer);
+
+    const $pokemonCardBody = document.createElement("div");
+    $pokemonCardBody.className = "card-body pokemon-card__body pt-4";
+    $pokemonCardBody.appendChild(createPokemonName(name));
+    $pokemonCardBody.appendChild(createPokemonId(id));
+    $pokemonCardBody.appendChild(createPokemonTypes(types));
+
+    $pokemonCard.appendChild($pokemonBackground);
+    $pokemonCard.appendChild($pokemonCardBody);
+
+    $pokemonCardContainer.appendChild($pokemonCard);
+
+    $pokemonCardsContainer.appendChild($pokemonCardContainer);
+}
 
 const createJapanesePokemonName = (id) => {
     const $japanesePokemonName = document.createElement("p");
