@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="top">
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -18,7 +18,27 @@
         <title>Pokedex R-AR</title>
     </head>
     <body>
-        <div class="pokemon-cards-container mt-4 mb-4">
+        <nav class="navbar fixed-top nav-bar rounded-bottom">
+            <div class="container-fluid">
+                <div class="nav-bar___title-container">
+                    <div class="nav-bar__icon"></div>
+                    <a class="navbar-brand" href="#top">Pokedex R-AR</a>
+                </div>
+
+                <form class="d-flex" role="search">
+                    <input
+                        class="form-control me-2"
+                        type="search"
+                        placeholder="Search by name or id"
+                        aria-label="Search"
+                    />
+                    <button class="btn border-dark">
+                        Search
+                    </button>
+                </form>
+            </div>
+        </nav>
+        <div class="pokemon-cards-container mb-4">
             <!-- Pokemon Cards -->
         </div>
 
