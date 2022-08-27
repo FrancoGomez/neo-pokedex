@@ -1,3 +1,6 @@
+const $pokemonCardsContainer = document.querySelector(
+    ".pokemon-cards-container"
+);
 const $pokemonTypeDropdown = document.querySelector("#pokemon-type-dropdown");
 const $pokemonAbilityDropdown = document.querySelector(
     "#pokemon-ability-dropdown"
@@ -5,10 +8,9 @@ const $pokemonAbilityDropdown = document.querySelector(
 const $pokemonGenerationDropdown = document.querySelector(
     "#pokemon-generation-dropdown"
 );
-
-const $pokemonCardsContainer = document.querySelector(
-    ".pokemon-cards-container"
-);
+const $searchInput = document.querySelector(".nav-bar__search-form input");
+const $searchButton = document.querySelector(".nav-bar__search-form button");
+const $noPokemonAlert = document.querySelector("#no-pokemon-alert");
 
 const init = () => {
     createPokemonCards(12);
@@ -19,7 +21,10 @@ const getPokemonInfo = async (pokemonId) => {
     const pokemonInfo = await fetch(
         `https://pokeapi.co/api/v2/pokemon/${pokemonId}`
     );
-    return pokemonInfo.json();
+
+    if (pokemonInfo.status === 200) {
+        return pokemonInfo.json();
+    }
 };
 
 const getAllPokemonTypes = async () => {
@@ -54,6 +59,28 @@ const createDropdownOptions = async () => {
     createDropdownOptionsList(pokemonGenerations, $pokemonGenerationDropdown);
 };
 
+$searchButton.onclick = (e) => {
+    handleSearch();
+
+    e.preventDefault();
+};
+
+const handleSearch = () => {
+    hideElement($noPokemonAlert);
+    const query = $searchInput.value;
+
+    deleteAllPokemonCards();
+    createPokemonCard(query);
+};
+
+const deleteAllPokemonCards = () => {
+    const children = $pokemonCardsContainer.childElementCount;
+
+    for (let i = children - 1; i >= 0; i--) {
+        $pokemonCardsContainer.children[i].remove();
+    }
+};
+
 const sortArray = (array) => {
     const newArray = [];
 
@@ -79,8 +106,11 @@ const createDropdownOptionsList = (array, $element) => {
     $element.appendChild($dropdownList);
 };
 
-const createPokemonCard = async (id) => {
-    const { name, types } = await getPokemonInfo(id);
+const createPokemonCard = async (queryInfo) => {
+    const pokemonInfo = await getPokemonInfo(queryInfo);
+    if (pokemonInfo === undefined) return handleError();
+
+    const { name, id, types } = pokemonInfo;
     const { type } = types[0];
     const { backgroundColor: typeColor } = typePokemonColors[`${type.name}`];
 
@@ -113,6 +143,18 @@ const createPokemonCard = async (id) => {
     $pokemonCardContainer.appendChild($pokemonCard);
 
     $pokemonCardsContainer.appendChild($pokemonCardContainer);
+};
+
+const handleError = () => {
+    showElement($noPokemonAlert);
+};
+
+const hideElement = ($element) => {
+    $element.classList.add("hidden");
+};
+
+const showElement = ($element) => {
+    $element.classList.remove("hidden");
 };
 
 const createJapanesePokemonName = (id) => {
