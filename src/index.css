@@ -199,3 +199,14 @@ body {
     font-weight: 700;
     margin-bottom: 0;
 }
+
+.no-pokemon-alert {
+    max-width: 1200px;
+    margin: auto;
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.hidden {
+    display: none;
+}
