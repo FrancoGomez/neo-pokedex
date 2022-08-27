@@ -13,7 +13,7 @@ const $searchButton = document.querySelector(".nav-bar__search-form button");
 const $noPokemonAlert = document.querySelector("#no-pokemon-alert");
 
 const init = () => {
-    createPokemonCards(12);
+    createPokemonCards(30);
     createDropdownOptions();
 };
 
@@ -41,9 +41,15 @@ const getAllPokemonAbilities = async () => {
     return allPokemonAbilities.json();
 };
 
-const createPokemonCards = (amount) => {
-    for (let i = 1; i <= amount; i++) {
-        createPokemonCard(i);
+const createPokemonCards = (amount, array = false, startCounter = 1) => {
+    if (array) {
+        for (let i = 1; i < array.length; i++) {
+            createPokemonCard(array[i].pokemon.name);
+        }
+    } else {
+        for (let i = startCounter; i <= amount; i++) {
+            createPokemonCard(i);
+        }
     }
 };
 
@@ -56,7 +62,47 @@ const createDropdownOptions = async () => {
 
     createDropdownOptionsList(sortedTypes, $pokemonTypeDropdown);
     createDropdownOptionsList(sortedAbilities, $pokemonAbilityDropdown);
-    createDropdownOptionsList(pokemonGenerations, $pokemonGenerationDropdown);
+    createDropdownOptionsList(
+        Object.keys(pokemonPerGeneration),
+        $pokemonGenerationDropdown
+    );
+};
+
+const handleDropdownItemClick = async ($item) => {
+    if (!$item.classList.contains("dropdown-item")) return;
+    const commonClasess = "dropdown-item dropdown-options__item ";
+    const category = $item.className.replace(commonClasess, "");
+    let parameter = $item.textContent;
+
+    deleteAllPokemonCards();
+
+    if (/generation/.test(parameter)) {
+        createPokemonCards(
+            pokemonPerGeneration[parameter].to,
+            false,
+            pokemonPerGeneration[parameter].from
+        );
+    } else {
+        parameter = parameter.replaceAll(" ", "-");
+        const { pokemon } = await searchPokemonsBy(category, parameter);
+        createPokemonCards("", pokemon);
+    }
+
+    if ($pokemonCardsContainer.childElementCount === 0) {
+        showElement($noPokemonAlert);
+    }
+};
+
+$pokemonTypeDropdown.onclick = (e) => handleDropdownItemClick(e.target);
+$pokemonAbilityDropdown.onclick = (e) => handleDropdownItemClick(e.target);
+$pokemonGenerationDropdown.onclick = (e) => handleDropdownItemClick(e.target);
+
+const searchPokemonsBy = async (category, parameter) => {
+    const pokemonsBy = await fetch(
+        `https://pokeapi.co/api/v2/${category}/${parameter}`
+    );
+
+    return pokemonsBy.json();
 };
 
 $searchButton.onclick = (e) => {
@@ -68,6 +114,7 @@ $searchButton.onclick = (e) => {
 const handleSearch = () => {
     hideElement($noPokemonAlert);
     const query = $searchInput.value;
+    $searchInput.value = "";
 
     deleteAllPokemonCards();
     createPokemonCard(query);
@@ -95,9 +142,11 @@ const createDropdownOptionsList = (array, $element) => {
     const $dropdownList = document.createElement("ul");
     $dropdownList.className = "dropdown-menu overflow-auto dropdown-options";
 
+    const dropdownName = $element.textContent.replace(/\s+/g, "").toLowerCase();
+
     array.forEach((elemet) => {
         const $dropdownItem = document.createElement("li");
-        $dropdownItem.className = "dropdown-item dropdown-options__item";
+        $dropdownItem.className = `dropdown-item dropdown-options__item ${dropdownName}`;
         $dropdownItem.textContent = elemet.replaceAll("-", " ");
 
         $dropdownList.appendChild($dropdownItem);
@@ -109,6 +158,9 @@ const createDropdownOptionsList = (array, $element) => {
 const createPokemonCard = async (queryInfo) => {
     const pokemonInfo = await getPokemonInfo(queryInfo);
     if (pokemonInfo === undefined) return handleError();
+    if (pokemonInfo.id > 898) return;
+
+    hideElement($noPokemonAlert);
 
     const { name, id, types } = pokemonInfo;
     const { type } = types[0];
@@ -116,6 +168,7 @@ const createPokemonCard = async (queryInfo) => {
 
     const $pokemonCardContainer = document.createElement("div");
     $pokemonCardContainer.className = "pokemon-card__container";
+    $pokemonCardContainer.setAttribute("id", id);
 
     const $pokemonCard = document.createElement("div");
     $pokemonCard.className = "card pokemon-card";
